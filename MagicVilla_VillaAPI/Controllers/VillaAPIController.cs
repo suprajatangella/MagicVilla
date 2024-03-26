@@ -9,8 +9,8 @@ using static Azure.Core.HttpHeader;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using MagicVilla_VillaAPI.Models.Repository.IRepository;
 using System.Net;
+using MagicVilla_VillaAPI.Repository.IRepository;
 
 namespace MagicVilla_VillaAPI.Controllers
 {

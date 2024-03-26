@@ -1,8 +1,9 @@
 ﻿using MagicVilla_VillaAPI.Data;
-using MagicVilla_VillaAPI.Models.Repository.IRepository;
+using MagicVilla_VillaAPI.Models;
+using MagicVilla_VillaAPI.Repository.IRepository;
 using System.Linq.Expressions;
 
-namespace MagicVilla_VillaAPI.Models.Repository
+namespace MagicVilla_VillaAPI.Repository
 {
     public class VillaNumberRepository : Repository<VillaNumber>, IVillaNumberRepository
     {
@@ -14,7 +15,7 @@ namespace MagicVilla_VillaAPI.Models.Repository
             _context = context;
         }
 
-      
+
         public async Task<VillaNumber> UpdateAsync(VillaNumber villaNumber)
         {
             villaNumber.UpdatedDate = DateTime.Now;

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace MagicVilla_VillaAPI.Models.Repository.IRepository
+namespace MagicVilla_VillaAPI.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {

@@ -3,17 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Linq;
 
-namespace MagicVilla_VillaAPI.Models.Repository.IRepository
+namespace MagicVilla_VillaAPI.Repository.IRepository
 {
-    public class Repository<T>: IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;
         internal DbSet<T> dbSet { get; set; }
-        public Repository(ApplicationDbContext context) 
+        public Repository(ApplicationDbContext context)
         {
             _context = context;
 
-            this.dbSet = _context.Set<T>();
+            dbSet = _context.Set<T>();
         }
 
 
