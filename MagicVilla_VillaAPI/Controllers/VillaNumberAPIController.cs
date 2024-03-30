@@ -77,7 +77,7 @@ namespace MagicVilla_VillaAPI.Controllers
                     return NotFound();
                 }
 
-                _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumber);
+                _response.Result = _mapper.Map<VillaNumberDTO>(villaNumber);
                 _response.StatusCode = HttpStatusCode.OK;
 
                 return Ok(_response);
@@ -115,7 +115,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 await _db.CreateAsync(villaNumber);
 
-                _response.Result = _mapper.Map<List<VillaNumberCreateDTO>>(villaNumber);
+                _response.Result = _mapper.Map<VillaNumberCreateDTO>(villaNumber);
                 _response.StatusCode = HttpStatusCode.Created;
 
                 return CreatedAtRoute("GetVillaNumber", new { id = villaNumber.VillaNo }, _response);
@@ -172,14 +172,14 @@ namespace MagicVilla_VillaAPI.Controllers
                 if (updateDTO == null || id != updateDTO.VillaNo)
                 { return BadRequest(); }
 
-                var villaNumber = await _db.GetAsync(v => v.VillaNo == id);
+                var villaNumber = await _db.GetAsync(v => v.VillaID == updateDTO.VillaID, tracked:false);
 
                 if (villaNumber == null)
                 {
                     return NotFound();
                 }
 
-                VillaNumber model = _mapper.Map<VillaNumber>(villaNumber);
+                VillaNumber model = _mapper.Map<VillaNumber>(updateDTO);
 
                 await _db.UpdateAsync(model);
                 _response.StatusCode = HttpStatusCode.NoContent;

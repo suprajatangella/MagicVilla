@@ -77,7 +77,7 @@ namespace MagicVilla_VillaAPI.Controllers
                     return NotFound();
                 }
 
-                _response.Result = _mapper.Map<List<VilaDTO>>(villa);
+                _response.Result = _mapper.Map<VilaDTO>(villa);
                 _response.StatusCode = HttpStatusCode.OK;
 
                 return Ok(_response);
@@ -94,6 +94,8 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        
 
         [HttpPost]
         public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VilaCreateDTO createDTO)
@@ -151,7 +153,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;
 
-                return Ok(_response);
+                 return Ok(_response);
             }
             catch (Exception ex)
             {
@@ -172,14 +174,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 if (updateDTO == null || id != updateDTO.Id)
                 { return BadRequest(); }
 
-                var villa = await _db.GetAsync(v => v.Id == id);
-
-                if (villa == null)
-                {
-                    return NotFound();
-                }
-
-                Villa model = _mapper.Map<Villa>(villa);
+                Villa model = _mapper.Map<Villa>(updateDTO);
 
                 await _db.UpdateAsync(model);
                 _response.StatusCode = HttpStatusCode.NoContent;
@@ -202,7 +197,7 @@ namespace MagicVilla_VillaAPI.Controllers
         {
             try
             {
-                if (patchDTO == null) //|| id != patchDTO.Id)
+                if (patchDTO == null || id == 0)
                 { return BadRequest(); }
 
                 var villa = await _db.GetAsync(v => v.Id == id, false);
@@ -225,7 +220,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 if (!ModelState.IsValid)
                 { return BadRequest(); }
 
-                return Ok(_response);
+                return NoContent();
             }
             catch (Exception ex)
             {
