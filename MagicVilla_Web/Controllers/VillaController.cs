@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace MagicVilla_Web.Controllers
 {
-    
+
     public class VillaController : Controller
     {
         private readonly IVillaService _villaService;
@@ -17,9 +17,9 @@ namespace MagicVilla_Web.Controllers
 
         public VillaController(IVillaService villaService, IMapper mapper)
         {
-            _villaService= villaService;
+            _villaService = villaService;
 
-            _mapper= mapper;
+            _mapper = mapper;
         }
         public async Task<ActionResult> CreateVilla()
         {
@@ -30,15 +30,16 @@ namespace MagicVilla_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateVilla(VilaCreateDTO createDTO)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 var response = await _villaService.CreateAsync<APIResponse>(createDTO);
-                List<VilaDTO> list = new();
-                if (response != null && response.IsSuccess) 
-                { 
+                if (response != null && response.IsSuccess)
+                {
+                    TempData["success"] = "Villa Created Successfully";
                     return RedirectToAction(nameof(IndexVilla));
                 }
             }
+            TempData["error"] = "Error Encountered.";
             return View(createDTO);
         }
 
@@ -65,9 +66,12 @@ namespace MagicVilla_Web.Controllers
                 var response = await _villaService.UpdateAsync<APIResponse>(updateDTO);
                 if (response != null && response.IsSuccess)
                 {
+                    TempData["success"] = "Villa Updated Successfully";
                     return RedirectToAction(nameof(IndexVilla));
                 }
             }
+
+            TempData["error"] = "Error Encountered.";
             return View(updateDTO);
         }
         public async Task<ActionResult> DeleteVilla(int id)
@@ -87,13 +91,14 @@ namespace MagicVilla_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteVilla(VilaDTO model)
         {
-            
-                var response = await _villaService.DeleteAsync<APIResponse>(model.Id);
-                if (response != null && response.IsSuccess)
-                {
+
+            var response = await _villaService.DeleteAsync<APIResponse>(model.Id);
+            if (response != null && response.IsSuccess)
+            {
+                    TempData["success"] = "Villa deleted Successfully";
                     return RedirectToAction(nameof(IndexVilla));
-                }
-            
+            }
+            TempData["error"] = "Error Encountered.";
             return View(model);
         }
 
@@ -101,7 +106,7 @@ namespace MagicVilla_Web.Controllers
         {
             List<VilaDTO> list = new();
             var response = await _villaService.GetAllAsync<APIResponse>();
-            if (response != null && response.IsSuccess) 
+            if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<VilaDTO>>(Convert.ToString(response.Result));
             }
