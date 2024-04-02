@@ -10,6 +10,7 @@
     <ProjectReference Include="..\MagicVilla_Utility\MagicVilla_Utility.csproj" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
 
 </Project>

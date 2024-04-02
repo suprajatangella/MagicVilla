@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System.Net;
 using MagicVilla_VillaAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
@@ -91,6 +92,7 @@ namespace MagicVilla_VillaAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -128,6 +130,7 @@ namespace MagicVilla_VillaAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -161,6 +164,7 @@ namespace MagicVilla_VillaAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id:int}", Name = "UpdateVillaNumber")]

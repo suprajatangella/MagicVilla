@@ -14,7 +14,7 @@ namespace MagicVilla_Web.Services
             _clientFactory = clientFactory;
             villaUrl = configuration.GetValue<string>("ServiceUrls:VillaAPI");
         }
-        public Task<T> CreateAsync<T>(VilaCreateDTO dto)
+        public Task<T> CreateAsync<T>(VilaCreateDTO dto, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
@@ -22,44 +22,52 @@ namespace MagicVilla_Web.Services
 
                 ApiType = SD.ApiType.POST,
 
-                Data = dto
+                Data = dto,
+
+                Token = token
             });
         }
 
-        public Task<T> DeleteAsync<T>(int id)
+        public Task<T> DeleteAsync<T>(int id, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 Url = villaUrl + "/api/VillaAPI/" + id,
 
-                ApiType = SD.ApiType.DELETE
+                ApiType = SD.ApiType.DELETE,
+
+                Token = token
 
             });
         }
 
-        public Task<T> GetAllAsync<T>()
+        public Task<T> GetAllAsync<T>(string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 Url = villaUrl + "/api/villaAPI/",
 
-                ApiType = SD.ApiType.GET
+                ApiType = SD.ApiType.GET,
+
+                Token = token
 
             });
         }
 
-        public Task<T> GetAsync<T>(int id)
+        public Task<T> GetAsync<T>(int id, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
                 Url = villaUrl + "/api/VillaAPI/" + id,
 
-                ApiType = SD.ApiType.GET
+                ApiType = SD.ApiType.GET,
+
+                Token = token
 
             });
         }
 
-        public Task<T> UpdateAsync<T>(VilaUpdateDTO dto)
+        public Task<T> UpdateAsync<T>(VilaUpdateDTO dto, string token)
         {
             return SendAsync<T>(new APIRequest()
             {
@@ -67,7 +75,9 @@ namespace MagicVilla_Web.Services
 
                 ApiType = SD.ApiType.PUT,
 
-                Data = dto
+                Data = dto,
+
+                Token = token
             });
         }
     }
