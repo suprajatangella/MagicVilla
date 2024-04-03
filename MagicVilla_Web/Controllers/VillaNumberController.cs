@@ -161,7 +161,6 @@ namespace MagicVilla_Web.Controllers
                 return View(villaNumberVM);
             }
 
-
             return NotFound();
         }
 
