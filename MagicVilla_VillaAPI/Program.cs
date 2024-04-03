@@ -29,6 +29,18 @@ builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 // Add services to the container.
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+builder.Services.AddApiVersioning(option => { 
+        option.AssumeDefaultVersionWhenUnspecified = true;
+        option.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+        option.ReportApiVersions=true;
+    }
+  );
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
@@ -130,7 +142,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options => {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Magic_VillaV1");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "Magic_VillaV2");
+    });
 }
 
 app.UseHttpsRedirection();

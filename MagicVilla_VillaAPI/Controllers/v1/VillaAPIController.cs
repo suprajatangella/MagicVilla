@@ -13,12 +13,12 @@ using System.Net;
 using MagicVilla_VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MagicVilla_VillaAPI.Controllers
+namespace MagicVilla_VillaAPI.Controllers.v1
 {
 
     [ApiController]
-
-    [Route("api/VillaAPI")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/VillaAPI")]
     public class VillaAPIController : ControllerBase
     {
         private readonly ILogging _logger;
@@ -31,7 +31,7 @@ namespace MagicVilla_VillaAPI.Controllers
             _db = db;
             _logger = logger;
             _mapper = mapper;
-            this._response = new();
+            _response = new();
         }
 
         [HttpGet]
@@ -159,7 +159,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;
 
-                 return Ok(_response);
+                return Ok(_response);
             }
             catch (Exception ex)
             {

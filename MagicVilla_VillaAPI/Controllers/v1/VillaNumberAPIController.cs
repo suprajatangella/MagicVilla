@@ -13,12 +13,14 @@ using System.Net;
 using MagicVilla_VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MagicVilla_VillaAPI.Controllers
+namespace MagicVilla_VillaAPI.Controllers.v1
 {
 
     [ApiController]
 
-    [Route("api/VillaNumberAPI")]
+    [Route("api/v{version:apiVersion}/VillaNumberAPI")]
+    [ApiVersion("1.0")]
+    
     public class VillaNumberAPIController : ControllerBase
     {
         private readonly ILogging _logger;
@@ -31,16 +33,24 @@ namespace MagicVilla_VillaAPI.Controllers
             _db = db;
             _logger = logger;
             _mapper = mapper;
-            this._response = new();
+            _response = new();
         }
+
+        [HttpGet("GetString")]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "String1", "string2" };
+        }
+
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        //[MapToApiVersion("1.0")]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
             try
             {
-                IEnumerable<VillaNumber> villaNumberList = await _db.GetAllAsync(includeProperties:"Villa");
+                IEnumerable<VillaNumber> villaNumberList = await _db.GetAllAsync(includeProperties: "Villa");
                 _logger.Log("Getting All Villa Numbers", "Info");
                 _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumberList);
                 _response.StatusCode = HttpStatusCode.OK;
@@ -176,7 +186,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 if (updateDTO == null || id != updateDTO.VillaNo)
                 { return BadRequest(); }
 
-                var villaNumber = await _db.GetAsync(v => v.VillaID == updateDTO.VillaID, tracked:false);
+                var villaNumber = await _db.GetAsync(v => v.VillaID == updateDTO.VillaID, tracked: false);
 
                 if (villaNumber == null)
                 {
@@ -209,7 +219,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 if (patchDTO == null) //|| id != patchDTO.Id)
                 { return BadRequest(); }
 
-                var villaNumber = await _db.GetAsync(v => v.VillaNo  == id, false);
+                var villaNumber = await _db.GetAsync(v => v.VillaNo == id, false);
 
                 if (villaNumber == null)
                 {
