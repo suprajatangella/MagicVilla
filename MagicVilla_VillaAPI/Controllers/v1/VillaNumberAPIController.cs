@@ -53,6 +53,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
                 IEnumerable<VillaNumber> villaNumberList = await _db.GetAllAsync(includeProperties: "Villa");
                 _logger.Log("Getting All Villa Numbers", "Info");
                 _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumberList);
+                _response.IsSuccess = true;
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
 
@@ -77,6 +78,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
                 if (id == 0)
                 {
                     _logger.Log("Error while retrieving Villa Number with Id" + id, "error");
+                    _response.IsSuccess = false;
                     return BadRequest();
                 }
 
@@ -85,12 +87,13 @@ namespace MagicVilla_VillaAPI.Controllers.v1
                 if (villaNumber == null)
                 {
                     _logger.Log("Villa Number details does not exists with Id" + id, "error");
+                    _response.IsSuccess = false;
                     return NotFound();
                 }
 
                 _response.Result = _mapper.Map<VillaNumberDTO>(villaNumber);
                 _response.StatusCode = HttpStatusCode.OK;
-
+                _response.IsSuccess = true;
                 return Ok(_response);
             }
 
@@ -115,10 +118,12 @@ namespace MagicVilla_VillaAPI.Controllers.v1
                 if (await _db.GetAsync(v => v.VillaNo == createDTO.VillaNo) != null)
                 {
                     ModelState.AddModelError("CustomError", "Villa Number Already Exists!");
+                    _response.IsSuccess = false;
                     return BadRequest(ModelState);
                 }
                 if (createDTO == null)
                 {
+                    _response.IsSuccess = false;
                     return BadRequest(createDTO);
                 }
 
@@ -129,7 +134,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
 
                 _response.Result = _mapper.Map<VillaNumberCreateDTO>(villaNumber);
                 _response.StatusCode = HttpStatusCode.Created;
-
+                _response.IsSuccess = true;
                 return CreatedAtRoute("GetVillaNumber", new { id = villaNumber.VillaNo }, _response);
             }
             catch (Exception ex)
@@ -150,13 +155,17 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             try
             {
                 if (id == 0)
-                { return BadRequest(); }
+                {
+
+                    _response.IsSuccess = false;
+                    return BadRequest(); }
 
 
                 var villaNumber = await _db.GetAsync(v => v.VillaNo == id);
 
                 if (villaNumber == null)
                 {
+                    _response.IsSuccess = false;
                     return NotFound();
                 }
 
@@ -184,12 +193,15 @@ namespace MagicVilla_VillaAPI.Controllers.v1
 
             {
                 if (updateDTO == null || id != updateDTO.VillaNo)
-                { return BadRequest(); }
+                {
+                    _response.IsSuccess = false;
+                    return BadRequest(); }
 
                 var villaNumber = await _db.GetAsync(v => v.VillaID == updateDTO.VillaID, tracked: false);
 
                 if (villaNumber == null)
                 {
+                    _response.IsSuccess = false;
                     return NotFound();
                 }
 
@@ -217,12 +229,15 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             try
             {
                 if (patchDTO == null) //|| id != patchDTO.Id)
-                { return BadRequest(); }
+                {
+                    _response.IsSuccess = false;
+                    return BadRequest(); }
 
                 var villaNumber = await _db.GetAsync(v => v.VillaNo == id, false);
 
                 if (villaNumber == null)
                 {
+                    _response.IsSuccess = false;
                     return NotFound();
                 }
 
@@ -237,7 +252,9 @@ namespace MagicVilla_VillaAPI.Controllers.v1
                 _response.IsSuccess = true;
 
                 if (!ModelState.IsValid)
-                { return BadRequest(); }
+                {
+                    _response.IsSuccess = false;
+                    return BadRequest(); }
 
                 return Ok(_response);
             }

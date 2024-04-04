@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Linq;
+using MagicVilla_VillaAPI.Repository.IRepository;
 
-namespace MagicVilla_VillaAPI.Repository.IRepository
+namespace MagicVilla_VillaAPI.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
@@ -23,7 +24,7 @@ namespace MagicVilla_VillaAPI.Repository.IRepository
             await SaveAsync();
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true, string? includeProperties = null)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if (!tracked)
@@ -45,7 +46,7 @@ namespace MagicVilla_VillaAPI.Repository.IRepository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null,
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, string includeProperties = null,
             int pageSize = 0, int pageNumber = 1)
         {
             IQueryable<T> query = dbSet;
