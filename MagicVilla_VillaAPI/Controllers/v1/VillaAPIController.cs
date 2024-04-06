@@ -22,15 +22,15 @@ namespace MagicVilla_VillaAPI.Controllers.v1
     [Route("api/v{version:apiVersion}/VillaAPI")]
     public class VillaAPIController : ControllerBase
     {
-        private readonly ILogging _logger;
+        //private readonly ILogging _logger;
         private readonly IVillaRepository _db;
         private readonly IMapper _mapper;
         protected APIResponse _response;
 
-        public VillaAPIController(ILogging logger, IVillaRepository db, IMapper mapper)
+        public VillaAPIController(IVillaRepository db, IMapper mapper)
         {
             _db = db;
-            _logger = logger;
+            //_logger = logger;
             _mapper = mapper;
             _response = new();
         }
@@ -94,7 +94,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             {
                 if (id == 0)
                 {
-                    _logger.Log("Error while retrieving Villa with Id" + id, "error");
+                    //_logger.Log("Error while retrieving Villa with Id" + id, "error");
                     _response.IsSuccess = false;
                     return BadRequest();
                 }
@@ -103,7 +103,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
 
                 if (villa == null)
                 {
-                    _logger.Log("Villa details does not exists with Id" + id, "error");
+                    //_logger.Log("Villa details does not exists with Id" + id, "error");
 
                     _response.IsSuccess = false;
                     return NotFound();

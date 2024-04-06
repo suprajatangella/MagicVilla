@@ -1,50 +1,43 @@
-//using Serilog;
 
 using MagicVilla_VillaAPI;
-using VillAPI.DataAccess.Data;
-using MagicVilla_VillaAPI.Logging;
+using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Repository;
-using VillAPI.DataAccess.Repository.IRepository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Text;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using VillaAPI.Models;
+using VillAPI.DataAccess.Data;
+using VillAPI.DataAccess.Repository.IRepository;
 using VillAPI.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>(
-
-     option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-     x=> x.MigrationsAssembly("VillaAPI.Migrations")));
-   
+// Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(option => {
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 builder.Services.AddResponseCaching();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
-
-//Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
-//    .WriteTo.File("log/villaLogs.txt", rollingInterval: RollingInterval.Day).CreateLogger();
-
-//builder.Host.UseSerilog();
-// Add services to the container.
-
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-builder.Services.AddApiVersioning(option => { 
-        option.AssumeDefaultVersionWhenUnspecified = true;
-        option.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-        option.ReportApiVersions=true;
-    }
-  );
-
+builder.Services.AddApiVersioning(options => {
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+});
 builder.Services.AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
 });
+
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
 
@@ -65,48 +58,44 @@ builder.Services.AddAuthentication(x =>
         };
     });
 
-builder.Services.AddControllers(option => 
-{
+builder.Services.AddControllers(option => {
     option.CacheProfiles.Add("Default30",
-      new CacheProfile()
-      {
-          Duration = 30
-      });
-    // option.ReturnHttpNotAcceptable = true; 
+       new CacheProfile()
+       {
+           Duration = 30
+       });
+    //option.ReturnHttpNotAcceptable=true;
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => {
-options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-{
-    Description =
-        "JWT Authorization header using the Bearer scheme. \r\n\r\n " +
-        "Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\n" +
-        "Example: \"Bearer 12345abcdef\"",
-    Name = "Authorization",
-    In = ParameterLocation.Header,
-    Scheme = "Bearer"
-});
-
-
-options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        new OpenApiSecurityScheme
+        Description =
+            "JWT Authorization header using the Bearer scheme. \r\n\r\n " +
+            "Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\n" +
+            "Example: \"Bearer 12345abcdef\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
         {
-            Reference = new OpenApiReference
+            new OpenApiSecurityScheme
             {
-                Type = ReferenceType.SecurityScheme,
-                Id = "Bearer"
+                Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header
             },
-            Scheme = "oauth2",
-            Name = "Bearer",
-            In = ParameterLocation.Header
-        },
-        new List<string>()
-    }
-});
-
+            new List<string>()
+        }
+    });
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1.0",
@@ -142,9 +131,6 @@ options.AddSecurityRequirement(new OpenApiSecurityRequirement()
         }
     });
 });
-
-builder.Services.AddSingleton<ILogging, LoggingV2>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -158,8 +144,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
 app.UseAuthentication();
 app.UseAuthorization();
 

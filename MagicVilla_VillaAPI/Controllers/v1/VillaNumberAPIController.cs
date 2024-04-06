@@ -23,15 +23,15 @@ namespace MagicVilla_VillaAPI.Controllers.v1
     
     public class VillaNumberAPIController : ControllerBase
     {
-        private readonly ILogging _logger;
+        //private readonly ILogging _logger;
         private readonly IVillaNumberRepository _db;
         private readonly IMapper _mapper;
         protected APIResponse _response;
 
-        public VillaNumberAPIController(ILogging logger, IVillaNumberRepository db, IMapper mapper)
+        public VillaNumberAPIController(IVillaNumberRepository db, IMapper mapper)
         {
             _db = db;
-            _logger = logger;
+            //_logger = logger;
             _mapper = mapper;
             _response = new();
         }
@@ -51,7 +51,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             try
             {
                 IEnumerable<VillaNumber> villaNumberList = await _db.GetAllAsync(includeProperties: "Villa");
-                _logger.Log("Getting All Villa Numbers", "Info");
+                //_logger.Log("Getting All Villa Numbers", "Info");
                 _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumberList);
                 _response.IsSuccess = true;
                 _response.StatusCode = HttpStatusCode.OK;
@@ -77,7 +77,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             {
                 if (id == 0)
                 {
-                    _logger.Log("Error while retrieving Villa Number with Id" + id, "error");
+                    //_logger.Log("Error while retrieving Villa Number with Id" + id, "error");
                     _response.IsSuccess = false;
                     return BadRequest();
                 }
@@ -86,7 +86,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
 
                 if (villaNumber == null)
                 {
-                    _logger.Log("Villa Number details does not exists with Id" + id, "error");
+                    ////_logger.Log("Villa Number details does not exists with Id" + id, "error");
                     _response.IsSuccess = false;
                     return NotFound();
                 }
