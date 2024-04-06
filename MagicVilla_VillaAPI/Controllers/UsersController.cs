@@ -1,6 +1,6 @@
-﻿using MagicVilla_VillaAPI.Models;
-using MagicVilla_VillaAPI.Models.Dto;
-using MagicVilla_VillaAPI.Repository.IRepository;
+﻿using VillaAPI.Models;
+using VillaAPI.Models.Dto;
+using VillAPI.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

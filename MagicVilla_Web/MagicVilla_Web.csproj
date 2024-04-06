@@ -8,9 +8,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MagicVilla_Utility\MagicVilla_Utility.csproj" />
+    <ProjectReference Include="..\VillaAPI.Migrations\VillaAPI.Migrations.csproj" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
   </ItemGroup>
 
 </Project>

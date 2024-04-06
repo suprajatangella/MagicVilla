@@ -24,4 +24,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VillaAPI.Models\VillaAPI.Models.csproj" />
+    <ProjectReference Include="..\VillAPI.DataAccess\VillAPI.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,23 +1,25 @@
 //using Serilog;
 
 using MagicVilla_VillaAPI;
-using MagicVilla_VillaAPI.Data;
+using VillAPI.DataAccess.Data;
 using MagicVilla_VillaAPI.Logging;
 using MagicVilla_VillaAPI.Repository;
-using MagicVilla_VillaAPI.Repository.IRepository;
+using VillAPI.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using VillAPI.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(
 
-     option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    );
+     option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+     x=> x.MigrationsAssembly("VillaAPI.Migrations")));
+   
 
 builder.Services.AddResponseCaching();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
