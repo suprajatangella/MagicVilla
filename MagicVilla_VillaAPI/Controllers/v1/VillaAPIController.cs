@@ -64,7 +64,11 @@ namespace MagicVilla_VillaAPI.Controllers.v1
                 }
                 Pagination pagination = new() { PageNumber = pageNumber, PageSize = pageSize };
 
-                Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
+                if (Response != null)
+                {
+                    Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(pagination));
+                }
+
                 _response.Result = _mapper.Map<List<VilaDTO>>(villaList);
 
                 _response.IsSuccess = true;
@@ -133,6 +137,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
         {
             try
             {
+
                 if (await _db.GetAsync(v => v.Name.ToLower() == createDTO.Name.ToLower()) != null)
                 {
                     ModelState.AddModelError("CustomError", "Villa Already Exists!");

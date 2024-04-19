@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "MagicVilla_TestProject": {
+      "commandName": "Project",
+      "commandLineArgs": "$(MSBuildProjectName).dll --debug --inprocess",
+      "workingDirectory": "C:\\Users\\supra\\source\\repos\\MagicVilla\\MagicVilla_TestProject\\bin\\Debug"
+    }
+  }
+}

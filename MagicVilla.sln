@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicVilla_Web", "MagicVill
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicVilla_Utility", "MagicVilla_Utility\MagicVilla_Utility.csproj", "{5D24F867-01C2-4F6F-8E06-96A3FDA524F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVilla_TestProject", "MagicVilla_TestProject\MagicVilla_TestProject.csproj", "{AB2A2BFF-03E5-4BD6-AA26-ABD12432C19E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagicVilla_TestProject", "MagicVilla_TestProject\MagicVilla_TestProject.csproj", "{AB2A2BFF-03E5-4BD6-AA26-ABD12432C19E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VillAPI.DataAccess", "VillAPI.DataAccess\VillAPI.DataAccess.csproj", "{9B75A48F-82C1-4663-A4EA-E700EB8982A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VillAPI.DataAccess", "VillAPI.DataAccess\VillAPI.DataAccess.csproj", "{9B75A48F-82C1-4663-A4EA-E700EB8982A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VillaAPI.Models", "VillaAPI.Models\VillaAPI.Models.csproj", "{62F1FFB6-D351-4F8A-A984-3CD3FC009ABD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VillaAPI.Models", "VillaAPI.Models\VillaAPI.Models.csproj", "{62F1FFB6-D351-4F8A-A984-3CD3FC009ABD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VillaAPI.Migrations", "VillaAPI.Migrations\VillaAPI.Migrations.csproj", "{E0FB4F1E-EA20-48EA-AEE4-31DD7C446637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VillaAPI.Migrations", "VillaAPI.Migrations\VillaAPI.Migrations.csproj", "{E0FB4F1E-EA20-48EA-AEE4-31DD7C446637}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicVillas.TestProject", "MagicVillas.TestProject\MagicVillas.TestProject.csproj", "{CD4C87F3-D729-4835-9F19-31AFA6C6A433}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{E0FB4F1E-EA20-48EA-AEE4-31DD7C446637}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0FB4F1E-EA20-48EA-AEE4-31DD7C446637}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0FB4F1E-EA20-48EA-AEE4-31DD7C446637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD4C87F3-D729-4835-9F19-31AFA6C6A433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD4C87F3-D729-4835-9F19-31AFA6C6A433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD4C87F3-D729-4835-9F19-31AFA6C6A433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD4C87F3-D729-4835-9F19-31AFA6C6A433}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
